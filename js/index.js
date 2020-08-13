@@ -1,3 +1,5 @@
+// import './cityData.json';
+
 let xhr = new XMLHttpRequest();
 
 xhr.open('get', 'https://raw.githubusercontent.com/kiang/pharmacies/master/json/points.json');
@@ -6,10 +8,11 @@ xhr.send();
 xhr.onload = function() {
     let maskData = JSON.parse(xhr.responseText).features;
     let maskContent = document.querySelector('.sideBarContent');
-    let countySelector = document.querySelector('.sideBarHeadCitySelect');
+    let countySelector = document.querySelector('.countySelector');
+    let townSelector = document.querySelector('.townSelector');
     
-    let str = '';
     // 取得 sideBarContent 樣板
+    let str = '';
     for (let i = 0; i < maskData.length; i++) {
         let maskDateName = maskData[i].properties.name;
         let maskDateAddress = maskData[i].properties.address;
@@ -48,16 +51,41 @@ xhr.onload = function() {
     let maskCounty = maskCountyAll.filter((item, index, arr) => {
         return arr.indexOf(item) === index;
     })
-    console.log(maskCounty);
+    let spaceCounty = maskCounty.indexOf('');
+    if (spaceCounty > -1) {
+        maskCounty.splice(spaceCounty, 1);
+    }
     let countyOptions = '';
     for(let i = 0; i < maskCounty.length; i++) {
         countyOptions += `
         <option value="${maskCounty[i]}">${ maskCounty[i] }</option>
         `
     }
-    countySelector.innerHTML = `<option value="" disabled>-- 請選擇縣市 --</option>` + countyOptions;
+    countySelector.innerHTML = `<option value="">-- 請選擇縣市 --</option>` + countyOptions;
 
     // 取得行政區
+    let maskTownAll = maskData.map(item => {
+        return item.properties.town;
+    })
+    let maskTown = maskTownAll.filter((item, index, arr) => {
+        return arr.indexOf(item) === index;
+    })
+    let spaceTown = maskTown.indexOf('');
+    if (spaceTown > -1) {
+        maskTown.splice(spaceTown, 1);
+    }
+    let townOptions = '';
+    for(let i = 0; i < maskTown.length; i++) {
+        townOptions += `
+        <option value="${maskTown[i]}">${ maskTown[i] }</option>
+        `
+    }
+    townSelector.innerHTML = `<option value="">-- 請選擇行政區 --</option>` + townOptions;
+
+    // 取得地址
+    // let maskAddressAll = maskData.map(item => {
+    //     return item.properties.address;
+    // })
 }
 
 
@@ -106,14 +134,36 @@ function getDate () {
 
     // 判斷為奇偶數
     function getMaskNumber () {
-        if (today%2 === 0) {
+        if (day%2 === 0) {
             return '2,4,6,8,0'
+        }
+        else if (day === 7) {
+            return '不限'
         }
         else {
             return '1,3,5,7,9'
         }
     }
 }
+
+// 選項
+// let changeCountySelector = document.querySelector('.countySelector');
+// let changeTownSelector = document.querySelector('.townSelector');
+// let select = {
+//     county: '',
+//     town: ''
+// }
+
+// changeCountySelector.addEventListener('change', changeCountySelectorMethod);
+// changeTownSelector.addEventListener('change', changeTownSelectorMethod);
+// function changeCountySelectorMethod () {
+//     select.county = this.value;
+// };
+// function changeTownSelectorMethod () {
+//     select.town = this.value;
+//     console.log(select);
+// }
+
 
 
 getDate();

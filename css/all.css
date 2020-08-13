@@ -60,6 +60,8 @@ table {
   -webkit-box-shadow: 0 0 5px rgba(0, 0, 0, 0.29);
           box-shadow: 0 0 5px rgba(0, 0, 0, 0.29);
   overflow-y: auto;
+  z-index: 999;
+  position: fixed;
 }
 
 .sideBar > .sideBarHead {
@@ -114,6 +116,7 @@ table {
 
 .sideBar > .sideBarContent {
   overflow: hidden;
+  background-color: #fff;
 }
 
 .sideBar > .sideBarContent > .sideBarContentBox {
@@ -176,20 +179,126 @@ table {
   font-size: 1.25rem;
 }
 
-.sideBar > .sideBarContent > .sideBarContentBox > .sideBarContentBoxTitleCount > .countAdult {
+.sideBar > .sideBarContent > .sideBarContentBox > .sideBarContentBoxTitleCount .countAdult {
   background-color: #73C0D8;
 }
 
-.sideBar > .sideBarContent > .sideBarContentBox > .sideBarContentBoxTitleCount > .countKid {
+.sideBar > .sideBarContent > .sideBarContentBox > .sideBarContentBoxTitleCount .countKid {
   background-color: #FFA573;
 }
 
-.sideBar > .sideBarContent > .sideBarContentBox > .sideBarContentBoxTitleCount > .countNone {
+.sideBar > .sideBarContent > .sideBarContentBox > .sideBarContentBoxTitleCount .countNone {
+  background-color: #A5A5A5;
+}
+
+.countBox {
+  font-size: 1rem;
+  color: #fff;
+  padding: 0.5rem 1rem;
+  border-radius: 60px;
+  font-weight: bold;
+  width: 39%;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+}
+
+.countBox > span:nth-child(2) {
+  font-size: 1.25rem;
+}
+
+.countAdult {
+  background-color: #73C0D8;
+}
+
+.countKid {
+  background-color: #FFA573;
+}
+
+.countNone {
   background-color: #A5A5A5;
 }
 
 .content {
+  width: 75%;
+  height: 100%;
+  position: absolute;
+  right: 0;
+  overflow-y: hidden;
+}
+
+html, body {
   width: 100%;
   height: 100%;
+}
+
+#map {
+  width: 100%;
+  height: 100%;
+}
+
+.placeDataBox {
+  font-family: "Segoe UI", "微軟正黑體", sans-serif;
+}
+
+.placeDataBox > .placeDataBoxTitle {
+  color: #333;
+  font-size: 1.125rem;
+  font-weight: bold;
+}
+
+.placeDataBox > .placeDataBoxData {
+  color: #666;
+  font-size: 0.875rem;
+  line-height: 24px;
+}
+
+.placeDataBox > .placeDataBoxData > span {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+}
+
+.placeDataBox > .placeDataBoxCount {
+  display: -webkit-inline-box;
+  display: -ms-inline-flexbox;
+  display: inline-flex;
+  -ms-flex-wrap: wrap;
+      flex-wrap: wrap;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+  -webkit-box-align: stretch;
+      -ms-flex-align: stretch;
+          align-items: stretch;
+  width: 100%;
+}
+
+.placeDataBox > .placeDataBoxCount > .countBox {
+  font-size: 0.875rem;
+  color: #fff;
+  padding: 0.5rem 1rem;
+  border-radius: 60px;
+  font-weight: bold;
+  width: 39%;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+}
+
+.placeDataBox > .placeDataBoxCount > .countBox > span:nth-child(2) {
+  font-size: 1.125rem;
 }
 /*# sourceMappingURL=all.css.map */

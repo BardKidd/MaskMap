@@ -6,8 +6,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="shortcut icon" type="image/x-icon" href="./img/a8yjp-qtb96-001.ico"></link>
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.6.0/dist/leaflet.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet.markercluster/1.4.1/MarkerCluster.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet.markercluster/1.4.1/MarkerCluster.Default.css">
     <link rel="stylesheet" href="./css/all.css">
-    <script src="https://unpkg.com/leaflet@1.6.0/dist/leaflet.js"></script>
     <title>口罩地圖 | Mask Map</title>
 </head>
 
@@ -18,15 +19,15 @@
             <h2 class="sideBarHeadWeek">星期<span></span></h2>
             <div class="sideBarHeadData">
                 <span class="sideBarHeadDataDate"></span>
-                <p class="sideBarHeadDataId">身分證末尾為<span></span>可購買</p>
+                <p class="sideBarHeadDataId">身分證末尾<span></span>可購買</p>
             </div>
             <label class="sideBarHeadCity">
-                <select class="sideBarHeadCitySelect">
+                <select class="sideBarHeadCitySelect countySelector">
                     <option value="">-- 請選擇縣市 --</option>
                 </select>
             </label>
             <label class="sideBarHeadCity">
-                <select class="sideBarHeadCitySelect">
+                <select class="sideBarHeadCitySelect townSelector">
                     <option value="">-- 請選擇行政區 --</option>
                 </select>
             </label>
@@ -55,11 +56,12 @@
         </div>
     </aside>
     <section class="content">
-        <!-- <div id="map"></div> -->
+        <div id="map"></div>
     </section>
-    <!-- <script src="./js/map.js"></script> -->
+    <script src="https://unpkg.com/leaflet@1.6.0/dist/leaflet.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet.markercluster/1.4.1/leaflet.markercluster.js"></script>
+    <script src="./js/map.js"></script>
     <script src="./js/index.js"></script>
-    <script src="./js/jquery-3.5.1.min.js"></script>
 </body>
 
 </html>
