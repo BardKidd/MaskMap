@@ -1,16 +1,165 @@
-// import './cityData.json';
-
+// 取得藥局資料
 let xhr = new XMLHttpRequest();
-
 xhr.open('get', 'https://raw.githubusercontent.com/kiang/pharmacies/master/json/points.json');
-
 xhr.send();
-xhr.onload = function() {
+xhr.onload = function () {
     let maskData = JSON.parse(xhr.responseText).features;
     let maskContent = document.querySelector('.sideBarContent');
     let countySelector = document.querySelector('.countySelector');
     let townSelector = document.querySelector('.townSelector');
-    
+
+    // 取得縣名
+    let maskCountyAll = maskData.map(item => {
+        return item.properties.county;
+    })
+    let maskCounty = maskCountyAll.filter((item, index, arr) => {
+        return arr.indexOf(item) === index;
+    })
+    let spaceCounty = maskCounty.indexOf('');
+    if (spaceCounty > -1) {
+        maskCounty.splice(spaceCounty, 1);
+    }
+    let countyOptions = '';
+    for(let i = 0; i < maskCounty.length; i++) {
+        countyOptions += `
+        <option value="${maskCounty[i]}">${ maskCounty[i] }</option>
+        `
+    }
+    // 篩選出相同縣市
+    countySelector.addEventListener('change', (item) => {
+        let countyName = item.target.value; 
+        let countyFilterMask = maskData.filter(item => {
+            return item.properties.county === countyName;
+        })
+
+        // 取得行政區
+        let maskTownAll = countyFilterMask.map(item => {
+            return item.properties.town;
+        })
+        let maskTown = maskTownAll.filter((item, index, arr) => {
+            return arr.indexOf(item) === index;
+        })
+        let spaceTown = maskTown.indexOf('');
+        if (spaceTown > -1) {
+            maskTown.splice(spaceTown, 1);
+        }
+        townSelector.addEventListener('change', (item) => {
+            let townName = countyName + item.target.value;
+            // 取得符合縣市+行政區的藥局
+            let rightTown = maskData.filter(item => {
+                return item.properties.address.match(townName);
+            })
+            // 取得 sideBarContent 樣板
+            let str = '';
+            for (let i = 0; i < rightTown.length; i++) {
+                let maskDateName = rightTown[i].properties.name;
+                let maskDateAddress = rightTown[i].properties.address;
+                let maskDatePhone = rightTown[i].properties.phone;
+                let maskDateNote = rightTown[i].properties.note;
+                let maskDateAdult = rightTown[i].properties.mask_adult;
+                let maskDateChild = rightTown[i].properties.mask_child;
+                
+                str += `
+                <div class="sideBarContentBox">
+                    <strong class="sideBarContentBoxTitle">${ maskDateName }</strong>
+                    <div class="sideBarContentBoxData">
+                        <span>${ maskDateAddress }</span>
+                        <span>${ maskDatePhone }</span>
+                        <span>${ maskDateNote }</span>
+                    </div>
+                    <div class="sideBarContentBoxTitleCount">
+                        <div class="countBox countAdult">
+                            <span>成人口罩</span>
+                            <span>${ maskDateAdult }</span>
+                        </div>
+                        <div class="countBox countKid">
+                            <span>兒童口罩</span>
+                            <span>${ maskDateChild }</span>
+                        </div>
+                    </div>
+                </div>
+                `
+            }
+            maskContent.innerHTML = str;
+        })
+
+        let townOptions = '';
+        for(let i = 0; i < maskTown.length; i++) {
+            townOptions += `
+            <option value="${maskTown[i]}">${ maskTown[i] }</option>
+            `
+        }
+        townSelector.innerHTML = `<option value="">-- 請選擇行政區 --</option>` + townOptions;
+
+        // 取得 sideBarContent 樣板
+        
+        let str = '';
+        if (countyName === "") {
+            for (let i = 0; i < maskData.length; i++) {
+                let maskDateName = maskData[i].properties.name;
+                let maskDateAddress = maskData[i].properties.address;
+                let maskDatePhone = maskData[i].properties.phone;
+                let maskDateNote = maskData[i].properties.note;
+                let maskDateAdult = maskData[i].properties.mask_adult;
+                let maskDateChild = maskData[i].properties.mask_child;
+                
+                str += `
+                <div class="sideBarContentBox">
+                    <strong class="sideBarContentBoxTitle">${ maskDateName }</strong>
+                    <div class="sideBarContentBoxData">
+                        <span>${ maskDateAddress }</span>
+                        <span>${ maskDatePhone }</span>
+                        <span>${ maskDateNote }</span>
+                    </div>
+                    <div class="sideBarContentBoxTitleCount">
+                        <div class="countBox countAdult">
+                            <span>成人口罩</span>
+                            <span>${ maskDateAdult }</span>
+                        </div>
+                        <div class="countBox countKid">
+                            <span>兒童口罩</span>
+                            <span>${ maskDateChild }</span>
+                        </div>
+                    </div>
+                </div>
+                `
+            }
+        }
+        else {
+            for (let i = 0; i < countyFilterMask.length; i++) {
+                let maskDateName = countyFilterMask[i].properties.name;
+                let maskDateAddress = countyFilterMask[i].properties.address;
+                let maskDatePhone = countyFilterMask[i].properties.phone;
+                let maskDateNote = countyFilterMask[i].properties.note;
+                let maskDateAdult = countyFilterMask[i].properties.mask_adult;
+                let maskDateChild = countyFilterMask[i].properties.mask_child;
+                
+                str += `
+                <div class="sideBarContentBox">
+                    <strong class="sideBarContentBoxTitle">${ maskDateName }</strong>
+                    <div class="sideBarContentBoxData">
+                        <span>${ maskDateAddress }</span>
+                        <span>${ maskDatePhone }</span>
+                        <span>${ maskDateNote }</span>
+                    </div>
+                    <div class="sideBarContentBoxTitleCount">
+                        <div class="countBox countAdult">
+                            <span>成人口罩</span>
+                            <span>${ maskDateAdult }</span>
+                        </div>
+                        <div class="countBox countKid">
+                            <span>兒童口罩</span>
+                            <span>${ maskDateChild }</span>
+                        </div>
+                    </div>
+                </div>
+                `
+            }
+        }
+        
+        maskContent.innerHTML = str;
+    })
+
     // 取得 sideBarContent 樣板
     let str = '';
     for (let i = 0; i < maskData.length; i++) {
@@ -43,51 +192,10 @@ xhr.onload = function() {
         `
     }
     maskContent.innerHTML = str;
-
-    // 取得縣名
-    let maskCountyAll = maskData.map(item => {
-        return item.properties.county;
-    })
-    let maskCounty = maskCountyAll.filter((item, index, arr) => {
-        return arr.indexOf(item) === index;
-    })
-    let spaceCounty = maskCounty.indexOf('');
-    if (spaceCounty > -1) {
-        maskCounty.splice(spaceCounty, 1);
-    }
-    let countyOptions = '';
-    for(let i = 0; i < maskCounty.length; i++) {
-        countyOptions += `
-        <option value="${maskCounty[i]}">${ maskCounty[i] }</option>
-        `
-    }
     countySelector.innerHTML = `<option value="">-- 請選擇縣市 --</option>` + countyOptions;
-
-    // 取得行政區
-    let maskTownAll = maskData.map(item => {
-        return item.properties.town;
-    })
-    let maskTown = maskTownAll.filter((item, index, arr) => {
-        return arr.indexOf(item) === index;
-    })
-    let spaceTown = maskTown.indexOf('');
-    if (spaceTown > -1) {
-        maskTown.splice(spaceTown, 1);
-    }
-    let townOptions = '';
-    for(let i = 0; i < maskTown.length; i++) {
-        townOptions += `
-        <option value="${maskTown[i]}">${ maskTown[i] }</option>
-        `
-    }
-    townSelector.innerHTML = `<option value="">-- 請選擇行政區 --</option>` + townOptions;
-
-    // 取得地址
-    // let maskAddressAll = maskData.map(item => {
-    //     return item.properties.address;
-    // })
 }
 
+L.control.locate({showPopup: false}).addTo(map).start();
 
 // 日期相關
 function getDate () {
@@ -125,7 +233,7 @@ function getDate () {
             case 6:
                 day = "六";
                 break;
-            case 7:
+            case 0:
                 day = "日";
                 break;
         }
@@ -134,11 +242,11 @@ function getDate () {
 
     // 判斷為奇偶數
     function getMaskNumber () {
-        if (day%2 === 0) {
-            return '2,4,6,8,0'
-        }
-        else if (day === 7) {
+        if (day === 0) {
             return '不限'
+        }
+        else if (day%2 === 0) {
+            return '2,4,6,8,0'
         }
         else {
             return '1,3,5,7,9'
@@ -146,26 +254,30 @@ function getDate () {
     }
 }
 
-// 選項
-// let changeCountySelector = document.querySelector('.countySelector');
-// let changeTownSelector = document.querySelector('.townSelector');
-// let select = {
-//     county: '',
-//     town: ''
-// }
-
-// changeCountySelector.addEventListener('change', changeCountySelectorMethod);
-// changeTownSelector.addEventListener('change', changeTownSelectorMethod);
-// function changeCountySelectorMethod () {
-//     select.county = this.value;
-// };
-// function changeTownSelectorMethod () {
-//     select.town = this.value;
-//     console.log(select);
-// }
+// sideBar 開關
+$('.fa-angle-right').hide();
+$('.fa-angle-left').click(function () {
+    $('.sideBar').animate({ left: "-25%"}, 100)
+    $('.content').css({
+        width: "100%"
+    })
+    $('.fa-angle-right').show();
+    $('.fa-angle-left').hide();
+})
+$('.fa-angle-right').click(function () {
+    $('.sideBar').animate({ left: "0"}, 100, function() {
+        $('.content').css({
+            width: "75%"
+        })
+    });
+    $('.fa-angle-right').hide();
+    $('.fa-angle-left').show();
+})
 
 
 
 getDate();
+
+
 
 

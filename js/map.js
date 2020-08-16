@@ -1,9 +1,3 @@
-navigator.geolocation.getCurrentPosition(position => {
-    var lat = position.coords.latitude;
-    var lon = position.coords.longitude;
-    console.log(lat, lon)
-})
-
 var map = L.map('map', {
     center: [22.572124, 120.331474],
     zoom: 16
@@ -12,6 +6,9 @@ var map = L.map('map', {
 L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
     attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
 }).addTo(map);
+
+// 找出自己的位置
+navigator.geolocation.getCurrentPosition();
 
 let xhrMap = new XMLHttpRequest();
 

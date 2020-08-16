@@ -56,12 +56,13 @@ table {
 .sideBar {
   font-family: "Segoe UI", "微軟正黑體", sans-serif;
   width: calc(100% / 4);
-  height: 100vh;
   -webkit-box-shadow: 0 0 5px rgba(0, 0, 0, 0.29);
           box-shadow: 0 0 5px rgba(0, 0, 0, 0.29);
-  overflow-y: auto;
   z-index: 999;
-  position: fixed;
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  top: 0;
 }
 
 .sideBar > .sideBarHead {
@@ -114,9 +115,37 @@ table {
   margin-top: 0.5rem;
 }
 
+.sideBar > .sideBarSwitch {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  width: 7%;
+  height: 10%;
+  background-color: #73C0D8;
+  position: absolute;
+  left: 100%;
+  border-radius: 0 5px 5px 0;
+  display: flex;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  font-size: 2rem;
+  -webkit-box-shadow: 0px 3px 6px #00000029;
+          box-shadow: 0px 3px 6px #00000029;
+}
+
+.sideBar > .sideBarSwitch > i {
+  color: #fff;
+  cursor: pointer;
+}
+
 .sideBar > .sideBarContent {
-  overflow: hidden;
+  overflow-y: auto;
   background-color: #fff;
+  height: 83vh;
 }
 
 .sideBar > .sideBarContent > .sideBarContentBox {
@@ -236,6 +265,7 @@ table {
 html, body {
   width: 100%;
   height: 100%;
+  overflow: hidden;
 }
 
 #map {

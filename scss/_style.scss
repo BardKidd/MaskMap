@@ -1,11 +1,12 @@
 .sideBar {
     font-family: $fontFamily;
     width: calc(100% / 4);
-    height: 100vh;
     box-shadow: 0 0 5px rgba(0, 0, 0, 0.29);
-    overflow-y: auto;
     z-index: 999;
-    position: fixed;
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    top: 0;
     > .sideBarHead {
         background-color: #73C0D8;
         padding: 1rem;
@@ -44,9 +45,28 @@
             }
         }
     }
+    > .sideBarSwitch {
+        display: flex;
+        width: 7%;
+        height: 10%;
+        background-color: #73C0D8;
+        position:  absolute;
+        left: 100%;
+        border-radius: 0 5px 5px 0;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        font-size: fontSize(32px);
+        box-shadow: 0px 3px 6px #00000029;
+        > i {
+            color: $white;
+            cursor: pointer;
+        }
+    }
     > .sideBarContent {
-        overflow: hidden;
+        overflow-y: auto;
         background-color: $white;
+        height: 83vh;
         > .sideBarContentBox {
             padding: 1rem;
             border-bottom: 2px solid #D9D9D9;
