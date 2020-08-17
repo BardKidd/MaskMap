@@ -3,6 +3,7 @@
 
 設計稿參考自 [THE F2E 2nd 的 Wendy 設計師](https://challenge.thef2e.com/user/2259?schedule=4452#works-4452)
 
+[網站連結](https://bardkidd.github.io/MaskMap/)
 ## 地圖功能
 
 * 提供日期供用戶參考是否可前去購買口罩
