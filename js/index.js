@@ -49,6 +49,7 @@ xhr.onload = function () {
             let rightTown = maskData.filter(item => {
                 return item.properties.address.match(townName);
             })
+            
             // 取得 sideBarContent 樣板
             let str = '';
             for (let i = 0; i < rightTown.length; i++) {
@@ -58,9 +59,11 @@ xhr.onload = function () {
                 let maskDateNote = rightTown[i].properties.note;
                 let maskDateAdult = rightTown[i].properties.mask_adult;
                 let maskDateChild = rightTown[i].properties.mask_child;
+                let maskGeometryLng = rightTown[i].geometry.coordinates[0]; // 經度
+                let maskGeometryLat = rightTown[i].geometry.coordinates[1]; // 緯度
                 
                 str += `
-                <div class="sideBarContentBox">
+                <div class="sideBarContentBox" data-lat="${ maskGeometryLat }" data-lng="${ maskGeometryLng }">
                     <strong class="sideBarContentBoxTitle">${ maskDateName }</strong>
                     <div class="sideBarContentBoxData">
                         <span>${ maskDateAddress }</span>
@@ -81,6 +84,7 @@ xhr.onload = function () {
                 `
             }
             maskContent.innerHTML = str;
+            moveMap();
         })
 
         let townOptions = '';
@@ -92,7 +96,6 @@ xhr.onload = function () {
         townSelector.innerHTML = `<option value="">-- 請選擇行政區 --</option>` + townOptions;
 
         // 取得 sideBarContent 樣板
-        
         let str = '';
         if (countyName === "") {
             for (let i = 0; i < maskData.length; i++) {
@@ -102,9 +105,11 @@ xhr.onload = function () {
                 let maskDateNote = maskData[i].properties.note;
                 let maskDateAdult = maskData[i].properties.mask_adult;
                 let maskDateChild = maskData[i].properties.mask_child;
-                
+                let maskGeometryLng = maskData[i].geometry.coordinates[0]; // 經度
+                let maskGeometryLat = maskData[i].geometry.coordinates[1]; // 緯度
+
                 str += `
-                <div class="sideBarContentBox">
+                <div class="sideBarContentBox" data-lat="${ maskGeometryLat }" data-lng="${ maskGeometryLng }">
                     <strong class="sideBarContentBoxTitle">${ maskDateName }</strong>
                     <div class="sideBarContentBoxData">
                         <span>${ maskDateAddress }</span>
@@ -133,9 +138,11 @@ xhr.onload = function () {
                 let maskDateNote = countyFilterMask[i].properties.note;
                 let maskDateAdult = countyFilterMask[i].properties.mask_adult;
                 let maskDateChild = countyFilterMask[i].properties.mask_child;
-                
+                let maskGeometryLng = countyFilterMask[i].geometry.coordinates[0]; // 經度
+                let maskGeometryLat = countyFilterMask[i].geometry.coordinates[1]; // 緯度
+
                 str += `
-                <div class="sideBarContentBox">
+                <div class="sideBarContentBox" data-lat="${ maskGeometryLat }" data-lng="${ maskGeometryLng }">
                     <strong class="sideBarContentBoxTitle">${ maskDateName }</strong>
                     <div class="sideBarContentBoxData">
                         <span>${ maskDateAddress }</span>
@@ -158,6 +165,7 @@ xhr.onload = function () {
         }
         
         maskContent.innerHTML = str;
+        moveMap();
     })
 
     // 取得 sideBarContent 樣板
@@ -169,9 +177,11 @@ xhr.onload = function () {
         let maskDateNote = maskData[i].properties.note;
         let maskDateAdult = maskData[i].properties.mask_adult;
         let maskDateChild = maskData[i].properties.mask_child;
+        let maskGeometryLng = maskData[i].geometry.coordinates[0]; // 經度
+        let maskGeometryLat = maskData[i].geometry.coordinates[1]; // 緯度
         
         str += `
-        <div class="sideBarContentBox">
+        <div class="sideBarContentBox" data-lat="${ maskGeometryLat }" data-lng="${ maskGeometryLng }">
             <strong class="sideBarContentBoxTitle">${ maskDateName }</strong>
             <div class="sideBarContentBoxData">
                 <span>${ maskDateAddress }</span>
@@ -193,6 +203,8 @@ xhr.onload = function () {
     }
     maskContent.innerHTML = str;
     countySelector.innerHTML = `<option value="">-- 請選擇縣市 --</option>` + countyOptions;
+    moveMap();
+    
 }
 
 L.control.locate({showPopup: false}).addTo(map).start();
@@ -273,6 +285,18 @@ $('.fa-angle-right').click(function () {
     $('.fa-angle-right').hide();
     $('.fa-angle-left').show();
 })
+
+// 移動地圖
+function moveMap (){
+    let allBox = document.querySelectorAll('.sideBarContentBox');
+    allBox.forEach( (item) => {
+        item.addEventListener('click', function () {
+            const lat = this.dataset.lat;
+            const lng = this.dataset.lng;
+            map.setView([lat, lng], 1300)
+        })
+    })
+}
 
 
 

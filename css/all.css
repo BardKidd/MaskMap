@@ -151,6 +151,7 @@ table {
 .sideBar > .sideBarContent > .sideBarContentBox {
   padding: 1rem;
   border-bottom: 2px solid #D9D9D9;
+  cursor: pointer;
 }
 
 .sideBar > .sideBarContent > .sideBarContentBox > .sideBarContentBoxTitle {

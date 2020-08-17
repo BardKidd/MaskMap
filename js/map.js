@@ -3,12 +3,13 @@ var map = L.map('map', {
     zoom: 16
 })
 
+
 L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
     attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
 }).addTo(map);
 
 // 找出自己的位置
-navigator.geolocation.getCurrentPosition();
+// navigator.geolocation.getCurrentPosition();
 
 let xhrMap = new XMLHttpRequest();
 
@@ -39,6 +40,7 @@ xhrMap.onload = function () {
 
     // 取得地圖資料樣板
     let markers = new L.MarkerClusterGroup().addTo(map);
+    
     for (let i = 0; i < maskData.length; i++) {
         let maskDateName = maskData[i].properties.name;
         let maskDateAddress = maskData[i].properties.address;
